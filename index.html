@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- チンチロ概要 -->
+    <!-- 3つのサイコロを用意     -->
+    <!-- スタートボタンを押す -->
+    <!-- 数字が回り出す -->
+    <!-- ストップボタンを押す -->
+    <!-- ランダムに数字が算出 -->
+    <!-- その数字を集計 -->
+    <!-- 勝ち負けの判定 -->
+    <!-- 多い方が勝ち -->
+    <!-- 少ない方が負け -->
+
+    <div class="container">
+        <div class="main">
+            <input type="button" value="サイコロを振ってください" id="start">
+            <div class="num_area">
+                <div class="num1"></div>
+            </div>
+            <div class="num_area">
+                <div class="num2"></div>
+            </div>
+            <div class="num_area">
+                <div class="num3"></div>
+            </div>
+            <button id="stop">ストップ</button>
+        </div>
+    </div>
+
+    <script>
+        let startButton = document.getElementById('start');
+        let stopButton = document.getElementById('stop');
+
+        // グローバルスコープでintervalIdを定義
+        let intervalId = null;
+
+        // 乱数生成関数の定義
+        function getRandomNumber() {
+            return Math.floor(Math.random() * 6) + 1;  // 1から6までの乱数を生成
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            // 以下にて3つのdivクラスを取得
+            const elements = document.querySelectorAll('.num1, .num2, .num3');
+            for (let i = 0; i < elements.length; i++) {
+                elements[i].textContent = getRandomNumber();
+            }
+            console.log(elements);
+        });
+
+        startButton.addEventListener('click', function () {
+            // 条件チェック
+            if (!stopButton) {
+                return; // 条件に合致した場合、ここで処理を終了
+            }
+            // 上記のreturnが実行されなかった場合のみ、この処理が実行される
+            intervalId = setInterval(function () {
+                // 繰り返し実行したい処理
+                const elements = document.querySelectorAll('.num1, .num2, .num3');
+                for (let i = 0; i < elements.length; i++) {
+                    elements[i].textContent = getRandomNumber();
+                }
+                // console.log('クリックされました');
+            }, 100);
+        });
+
+        // ストップボタンの処理
+        stopButton.addEventListener('click', function () {
+            // タイマーが動いていない場合は何もしない
+            if (!intervalId) return;
+
+            // タイマーを停止
+            clearInterval(intervalId);
+            intervalId = null;
+
+            // 最終的な乱数を表示
+            console.log('停止時の値:', getRandomNumber());
+        });
+        
+    </script>
+</body>
+
+</html>
